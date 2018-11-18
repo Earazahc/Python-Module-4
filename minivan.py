@@ -24,12 +24,10 @@ def car_doors(left_dash, right_dash, child_lock, master_lock, left_inside,
             states[6]: Right Inside Handle (0 or 1)
             states[7]: Right Outside Handle (0 or 1)
         gear: Gear Shift Position (P, N, D, 1, 2, 3, or R)
-    Return:
-        openleft: Open Left Door (0 or 1)
-        openright: Open Right Door (0 or 1)
     """
-    states = [left_dash, right_dash, child_lock, master_lock, left_inside, left_outside,
-              right_inside, right_outside]
+    states = [int(left_dash), int(right_dash), int(child_lock),
+              int(master_lock), int(left_inside), int(left_outside),
+              int(right_inside), int(right_outside)]
 
 
     print("Left dashboard switch (0 or 1): {}".format(left_dash))
@@ -48,31 +46,43 @@ def car_doors(left_dash, right_dash, child_lock, master_lock, left_inside,
         return
 
 
-    openleft = "Left door opens"
-    openright = "Right door opens"
+    openleft = 0
+    openright = 0
 
+    # Test left door
     if states[3] and (gear == 'P') and states[0]:
-        print(openleft)
-        return
+        openleft = 1
     elif states[3] and (gear == 'P') and states[5]:
-        print(openleft)
-        return
+        openleft = 1
     elif states[3] and (gear == 'P') and states[4] and not states[2]:
-        print(openleft)
-        return
-    elif states[3] and (gear == 'P') and states[1]:
-        print(openright)
-        return
-    elif states[3] and (gear == 'P') and states[7]:
-        print(openright)
-        return
-    elif states[3] and (gear == 'P') and states[6] and not states[2]:
-        print(openright)
-        return
+        openleft = 1
 
+    # Test right door
+    if states[3] and (gear == 'P') and states[1]:
+        openright = 1
+    elif states[3] and (gear == 'P') and states[7]:
+        openright = 1
+    elif states[3] and (gear == 'P') and states[6] and not states[2]:
+        openright = 1
+
+    # Test gear
     if gear != "P":
         print("Both doors stay closed")
         return
+
+    if openleft and openright:
+        print("Both doors open")
+        return
+    elif openleft:
+        print("Left door opens")
+        return
+    elif openright:
+        print("Right door opens")
+        return
+    else:
+        print("Both doors stay closed")
+        return
+
 
 def main():
     """

@@ -72,7 +72,7 @@ def print_barcode(zip_c):
     change = ""
 
     #call the printDigit function
-    check = print_digit(zip)
+    check = print_digit(zip_c)
 
     #loop through the zip_code
     for num in zip_code:
